@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "pix_app",
+    "slug": "pix_app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      }
+    }
+  }
+}
