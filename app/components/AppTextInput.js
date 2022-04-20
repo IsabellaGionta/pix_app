@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         fontFamily: AppFonts.text,
         color: AppColors.FeatureTextColor,
         marginLeft: '2%',
+        width:'80%',
 
     },
 })

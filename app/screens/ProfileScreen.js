@@ -1,81 +1,96 @@
-import React, {useState} from 'react';
-import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native';
+  
+import {React, useState} from 'react';
 
+import {FlatList, StyleSheet, View, TouchableWithoutFeedback, Modal} from 'react-native'
+import AppButton from '../components/AppButton';
+import AppCard from '../components/AppCard';
+import AppPicker from '../components/AppPicker';
 import AppScreen from '../components/AppScreen';
-import AppColors from '../config/AppColors';
-import AppListItem from '../components/AppListItem';
+import DataManager from '../config/DataManager';
+import  AppListItem from "../components/AppListItem";
 import AppIcon from '../components/AppIcon';
+import AppColors from '../config/AppColors';
+import AppText from '../components/AppText';
+
+const getCollections = () => {
+    let commonData = DataManager.getInstance();
+    let user = commonData.getUserID();
+    return commonData.getCollections(user);    
+    // console.log(commonData.getCollections(user));
+}
 
 
-const initialAuthorList = [
-    {
-        id:1,
-        name:"Jane Harper",
-        image: require("../assets/plant.jpg"),
-    },
-    {
-        id:2,
-        name:"J.K.Rowling",
-        image: require("../assets/logo.png"),
-    },
+function ProfileScreen({navigation, route}) {
 
-]
+    const logout = async function () {
+        await navigation.navigate("Login");
+ 
+        }
 
+    const collectionList = getCollections();
+    // console.log(collectionList);
+    const [modal, setModal] = useState(false);
 
-
-function MyAuthorsScreen(props) {
-
-    const[refreshing, setRefreshing] = useState(false);
-    const[authors, setAuthors] =  useState(initialAuthorList);
-
-    const handleDelete = (author) => {
-        const newAuthorList =  authors.filter (item => item.id !== author.id);
-        setAuthors(newAuthorList);
+    const handlePhotoClick = () => {
+        navigation.navigate("Photos");
     }
-
-    return (
-        <AppScreen style={styles.container}>
-            <FlatList
-            data = {authors}
-            keyExtractor = { author => author.id.toString()}
-            refreshing={refreshing}
-            onRefresh={() => setAuthors(initialAuthorList)}
-            renderItem = {({item}) => 
-                <AppListItem 
-                    title={item.name}
-                    image={item.image}
-                    onPress={() => console.log(item)}
-                    onSwipeLeft={ () => (
-                    <View style={styles.deleteView}>
-                        <TouchableOpacity onPress={() => handleDelete(item)}>
-                            <AppIcon name="trash-can" iconColor={AppColors.otherColor} backgroundColor={AppColors.primaryColor}/> 
-                        </TouchableOpacity>
-                    </View>)}
     
-                />}
-            ItemSeparatorComponent = { () =>
-                <View style={styles.seperator}/>
-            }
-            />
+    const handleCollectionClick = () => {
+        navigation.navigate("Collection");
+    }
+    
+
+   
+    return (
+        <AppScreen 
+            icon="logout"
+            style={styles.container}
+            onPress={logout}
+        >
+
+            <View style={styles.profileContainer}>
+                <AppListItem image={route.params.paramImage} name={route.params.paramName} description={route.params.paramEmail}/>
+            </View>
+            <View style={styles.logout}>
+                <AppButton 
+                        onPress={logout}
+                        title="Logout"
+                    />
+            </View>
+            <View style={styles.mainButtons}>
+
+                <AppButton 
+                    onPress={handlePhotoClick}
+                    title="My Photos"
+                />
+                <View style={{marginTop: 40,}}>
+                    <AppButton
+                        onPress={handleCollectionClick}
+                        title="My Collections"
+                    />
+                </View>
+
+            </View>
+    
         </AppScreen>
     );
 }
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:AppColors.otherColor,
-        flex:1,
+    container: {
+        marginTop: 0,
+        position: 'absolute',
     },
-    seperator:{
-        width:"100%",
-        height:2,
-        backgroundColor: AppColors.secondaryColor,
+    profileContainer: {
+        marginTop: '10%',
     },
-    deleteView:{
-        backgroundColor:AppColors.secondaryColor,
-        width:75,   
-        justifyContent:"center",
-        alignItems:"center",
+    mainButtons: {
+        marginTop: 20,
+    },
+    logout: {
+        width: '40%',
+        left: '43%',
+        top: '-9%',
     }
+     
 })
-
-export default MyAuthorsScreen;
+export default ProfileScreen;

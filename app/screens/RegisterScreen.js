@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 
@@ -13,6 +13,7 @@ import AppScreen from '../components/AppScreen';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
 import AppFonts from '../config/AppFonts';
+import DataManager from '../config/DataManager';
 
 
 
@@ -24,7 +25,72 @@ const schema = Yup.object().shape(
     }
 );
 
-function LoginScreen() {
+const users = [
+    {
+        id: "user1",
+        name: "Isabella",
+        email: "isa@gmail.com",
+        password: "123456",
+        image: require('../assets/icon.png'),
+
+    },
+    {
+        id: "user2",
+        name: "Gionta",
+        email: "bel@gmail.com",
+        password: "789012",
+        image: require('../assets/plant.jpg'),
+
+    },
+];
+
+
+const getUsers = () => {
+
+    let commonData = DataManager.getInstance();
+    let user = commonData.getUserID();
+    return commonData.getUsers(user);    
+    // console.log(commonData.getCollections(user));
+}
+
+const getUser = ({email}) => {
+    return users.find((user) => user.email === email);
+}
+
+const validateUser = ({email, password}) => {
+    return (
+        users.filter((user) => user.email === email && user.password === password).length>0
+    );
+
+};
+
+function RegisterScreen({navigation}) {
+
+    const[name, setName] = useState("");
+    const[email, setEmail] = useState("");
+    const[password, setPassword] = useState("");
+
+
+    const userList = getUsers();
+
+    const addUser = () => {
+        let commonData = DataManager.getInstance();
+        let user = commonData.getUserID();
+    
+        const users = commonData.getUsers(user);
+        const userID = users.length+1;
+        const newUser = {
+            id: userID,
+            name: name,
+            email: email,
+            password: password    
+    };
+    
+        commonData.createUser(newUser);
+    
+    }
+    console.log()
+    
 
     return (
         <AppScreen style={styles.container}>
@@ -33,10 +99,34 @@ function LoginScreen() {
                 <AppText style={styles.registerText}> Register </AppText>
                 <Formik
                     initialValues={{name:'', email:'', password:'',}}
-                    onSubmit = {values=>console.log(values)}
+                    onSubmit = {(values, {resetForm}) => {
+                        if(!validateUser(values)){
+                            resetForm(); 
+                            addUser(values);
+                            alert("You have successfully registered");
+                            console.log(values);
+
+                        navigation.navigate("ProfileScreen", {
+                            screen: "Profile",
+                            params:{
+                                screen:"Profile2",
+                                params:{ 
+                                    paramEmail: values.email,
+                                    paramName: getUsers(values).name,
+                                    paramImage: getUsers(values).image,
+                                },
+                            }
+                        }
+                        );
+                }
+                else {
+                    resetForm();
+                    alert("Invalid details, please try again")
+                }}
+            }
                     validationSchema={schema}
                     >
-                {({handleChange, handleSubmit, errors, setErrors, touched})=> (
+                {({values, handleChange, handleSubmit, errors, setErrors, touched})=> (
                     <>
                     <View style={styles.appTextInputContainer}>             
                         <AppTextInput
@@ -113,4 +203,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default LoginScreen;
+export default RegisterScreen;

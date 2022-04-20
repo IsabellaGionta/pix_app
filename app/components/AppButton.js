@@ -11,7 +11,7 @@ function AppButton({title, onPress}) {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={styles.appButton}>
-                <AppText style={styles.appButtonText}> {title}  </AppText>
+                {<AppText style={styles.appButtonText}> {title}  </AppText>}
             </View>
         </TouchableOpacity>
 

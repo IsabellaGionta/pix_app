@@ -12,21 +12,23 @@ function AppPicker({data, icon, placeholder, numColumns, selectedItem, onSelecte
 
     const [modalVisible, setModalVisible]= useState(false);
 
+
     return (
         <>
             <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
                 <View style={styles.container}>
                     {icon && <MaterialCommunityIcons name={icon} size={22}/>}
-                    <AppText style={styles.text}> {selectedItem? onSelectedItem.label : placeholder} </AppText>
+                    <AppText style={styles.text}> {selectedItem? selectedItem.label : placeholder} </AppText>
                     <MaterialCommunityIcons name="chevron-down" size={22}/>
 
                 </View>
             </TouchableWithoutFeedback>
              
-            <Modal visible={modalVisible} animationType="slide">
+            <Modal visible={modalVisible} animationType="fade">
+                <View>
                     <AppButton title="Close" onPress={() => setModalVisible(false)}/>
                     <FlatList
-                    numColumns={numColumns}
+                        numColumns={numColumns}
                         data={data}
                         keyExtractor={(item) => item.value.toString()}
                         renderItem = {({item}) => 
@@ -34,16 +36,14 @@ function AppPicker({data, icon, placeholder, numColumns, selectedItem, onSelecte
                             onPress={() => {
                                 setModalVisible(false);
                                 onSelectedItem(item);
-                                console.log(item)
                             }}
                             label={item.label}
                             icon={item.icon}  
                             backgroundColor={item.backgroundColor}>
                         </AppPickerItem>
-                        
-                        
                        }
                     />
+                </View>
             </Modal>
         </>
     );
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 40, 
         padding: 15,
-        width:'90%',
+        width:'70%',
         backgroundColor: AppColors.secondaryColor,
         marginVertical: 10,
         marginTop: 50,

@@ -8,7 +8,7 @@ import AppFonts from '../config/AppFonts';
 
 function AppText({style, children}) {
     return (
-        <Text style={[styles.text, style]}> {children} </Text>
+        <Text style={[styles.text, style]} title> {children} </Text>
     );
 }
 

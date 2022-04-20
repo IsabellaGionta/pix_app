@@ -1,19 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 
 import AppButton from '../components/AppButton';
-import AppColors from '../config/AppColors';
 import AppError from '../components/AppError';
 import AppScreen from '../components/AppScreen';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
 import AppFonts from '../config/AppFonts';
+import DataManager from '../config/DataManager';
 
 
 
@@ -23,19 +21,24 @@ const schema = Yup.object().shape(
         password: Yup.string().required("This field is required").min(6, "Password must be at least 6 characters").max(16, "Password must be max 16 characters").label("Password"), 
     }
 );
-
 const users = [
     {
+        id: "user1",
         name: "Isabella",
         email: "isa@gmail.com",
-        password: "123456"
+        password: "123456",
+        image: require('../assets/icon.png'),
+
     },
     {
+        id: "user2",
         name: "Gionta",
         email: "bel@gmail.com",
-        password: "789012"
-    }
-]
+        password: "789012",
+        image: require('../assets/plant.jpg'),
+
+    },
+];
 
 const validateUser = ({email, password}) => {
     return (
@@ -43,6 +46,17 @@ const validateUser = ({email, password}) => {
     );
 
 };
+
+const getUser = ({email}) => {
+    return users.find((user) => user.email === email);
+}
+
+
+const createUser = ({email}) => {
+    let data = DataManager.getInstance();
+    let userID = getUser({email}).id;
+    data.setUserID(userID);
+}
 
 function LoginScreen({navigation}) {
   
@@ -57,13 +71,25 @@ function LoginScreen({navigation}) {
                     initialValues={{email:'', password:'',}}
                     onSubmit = {(values, {resetForm}) => {
                     if(validateUser(values)){
-                        console.log(values);
-                        navigation.navigate("Home");
-                        resetForm();
-                    }
+                        resetForm(); 
+                        createUser(values);
+                        navigation.navigate("ProfileScreen", {
+                            screen: "Profile",
+                            params:{
+                                screen:"Profile2",
+                                params:{ 
+                                    paramEmail: values.email,
+                                    paramName: getUser(values).name,
+                                    paramImage: getUser(values).image,
+                                },
+                            }
+                        }
+                        );
+                }
+  
                     else {
                         resetForm();
-                        alert("Invalid details")
+                        alert("Invalid details, please try again")
                     }
                 }}
                     

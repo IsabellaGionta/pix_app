@@ -1,20 +1,30 @@
 import React from 'react';
 import { View, StyleSheet, Image, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
 import Constants from 'expo-constants';
-
 import AppColors from '../config/AppColors';
 
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import DrawerNavigator from '../navigation/DrawerNavigator';
+import { useNavigation } from '@react-navigation/native';
 
 
+function AppScreen({children, style, onPress, handleMenuButton, icon}) {
 
-function AppScreen({children, style, onPress}) {
+    const navigation = useNavigation();
+
+    // const handleProfile = () => {
+       
+    //         navigation.navigate("Login");
+        
+    // }
+
+    
     return (
 
         <View style={styles.appscreen}>
                         
                 <View style={styles.icons}> 
-                    <TouchableOpacity style={styles.menu} onPress={onPress}>
+                    <TouchableOpacity style={styles.menu} onPress={handleMenuButton}> 
                                 <MaterialCommunityIcons
                                     name="menu" 
                                     size={60}
@@ -26,10 +36,10 @@ function AppScreen({children, style, onPress}) {
                     </View>
 
                     <TouchableOpacity style={styles.account} onPress={onPress}>
-                            <MaterialCommunityIcons
-                                name="account" 
+                            {icon && <MaterialCommunityIcons
+                                name={icon} 
                                 size={60}
-                                color={AppColors.FeatureTextColor}/>
+                                color={AppColors.FeatureTextColor}/>}
                     </TouchableOpacity>
                     
             </View>
@@ -54,7 +64,7 @@ const styles = StyleSheet.create({
     },
     account: {
         flex:0.5,
-       flexDirection: 'row-reverse',
+        flexDirection: 'row-reverse',
 
     },
     logo: {

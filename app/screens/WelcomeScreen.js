@@ -9,11 +9,23 @@ import AppTextInput from '../components/AppTextInput';
 import AppFonts from '../config/AppFonts';
 import {useNavigation} from '@react-navigation/native';
 import AppText from '../components/AppText';
+import {DrawerActions } from '@react-navigation/native';
+
 
 function WelcomeScreen({navigation, route}) {
+
+    
+    // const menu = () => {
+    //     navigation.toggleDrawer();
+ 
+    // }
+
     return (
     <ImageBackground style={{width: '100%', height: '100%'}} blurRadius={7} source={(require('../assets/plant.jpg'))} resizeMode="cover" >
-    <AppScreen style={styles.container}> 
+    <AppScreen 
+        handleMenuButton={{}}
+        style={styles.container}
+    > 
 {/* <        View style={styles.backdropView}>
             <Text style={styles.headline}>Headline</Text>
           </View> */}
