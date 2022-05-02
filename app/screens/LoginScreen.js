@@ -1,16 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-
-import {Formik} from 'formik';
 import * as Yup from 'yup';
-
-
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import {Formik} from 'formik';
 import AppButton from '../components/AppButton';
 import AppError from '../components/AppError';
+import AppFonts from '../config/AppFonts';
 import AppScreen from '../components/AppScreen';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
-import AppFonts from '../config/AppFonts';
 import DataManager from '../config/DataManager';
 
 
@@ -24,15 +21,17 @@ const schema = Yup.object().shape(
 const users = [
     {
         id: "user1",
-        name: "Isabella",
+        firstName: "Isabella",
+        lastName: "Paine",
         email: "isa@gmail.com",
         password: "123456",
-        image: require('../assets/icon.png'),
+        image: require('../assets/plant.jpg'),
 
     },
     {
         id: "user2",
-        name: "Gionta",
+        firstName: "Floral",
+        lastName: "Plants",
         email: "bel@gmail.com",
         password: "789012",
         image: require('../assets/plant.jpg'),
@@ -62,7 +61,12 @@ function LoginScreen({navigation}) {
   
 
     return (
-        <AppScreen style={styles.container}>
+        <AppScreen style={styles.container}
+            back="arrow-left"
+            handleBackClick={() => {navigation.goBack(null)}}
+            
+
+        >
             <ScrollView
             vertical={true}>
              <AppText style={styles.loginText}> Login </AppText>
@@ -79,7 +83,8 @@ function LoginScreen({navigation}) {
                                 screen:"Profile2",
                                 params:{ 
                                     paramEmail: values.email,
-                                    paramName: getUser(values).name,
+                                    paramFirstName: getUser(values).firstName,
+                                    paramLastName: getUser(values).lastName,
                                     paramImage: getUser(values).image,
                                 },
                             }

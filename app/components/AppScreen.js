@@ -1,47 +1,41 @@
-import React from 'react';
-import { View, StyleSheet, Image, ImageBackground, TouchableOpacity, StatusBar } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import React from 'react';
+import { Image, ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AppColors from '../config/AppColors';
-
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-import DrawerNavigator from '../navigation/DrawerNavigator';
-import { useNavigation } from '@react-navigation/native';
+import AppText from './AppText';
 
 
-function AppScreen({children, style, onPress, handleMenuButton, icon}) {
 
-    const navigation = useNavigation();
+function AppScreen({children, size='70%', imageBackground, onPress, handleBackClick, icon, back, source, title}) {
 
-    // const handleProfile = () => {
-       
-    //         navigation.navigate("Login");
-        
-    // }
 
     
     return (
 
         <View style={styles.appscreen}>
+            { imageBackground ? <ImageBackground style={styles.imageBackground} source={imageBackground} blurRadius={7} resizeMode="cover" /> : null }
+
                         
                 <View style={styles.icons}> 
-                    <TouchableOpacity style={styles.menu} onPress={handleMenuButton}> 
-                                <MaterialCommunityIcons
-                                    name="menu" 
+                    <TouchableOpacity style={styles.menu} onPress={handleBackClick}> 
+                                { back ? <MaterialCommunityIcons
+                                    name={back} 
                                     size={60}
-                                    color={AppColors.FeatureTextColor}/>
+                                    color={AppColors.FeatureTextColor}/> : null}
                     </TouchableOpacity>
+                    
 
-                    <View>
-                        <Image style={styles.logo} source={(require('../assets/logo.png'))} />
-                    </View>
+                    { source ? <Image style={styles.logo} source={source} /> : null }
+
+                    { title ? <AppText style={styles.text} > {title} </AppText> : null }
 
                     <TouchableOpacity style={styles.account} onPress={onPress}>
                             {icon && <MaterialCommunityIcons
                                 name={icon} 
                                 size={60}
                                 color={AppColors.FeatureTextColor}/>}
-                    </TouchableOpacity>
-                    
+                    </TouchableOpacity>     
             </View>
             {children}
         </View>
@@ -52,27 +46,39 @@ const styles = StyleSheet.create({
     appscreen:{
         flex: 1,
         marginTop: Constants.statusBarHeight,
-    //    backgroundColor: AppColors.otherColor,
+       backgroundColor: AppColors.backColor,
+    },
+    imageBackground: {
+        width: '100%', 
+        height: '100%',
+
+        position: 'absolute',
     },
     icons: {
         flexDirection: 'row',
-        marginTop: '3%',
-    },
-    menu: {
-        flex: 0.5,
-        flexDirection: 'row',
-    },
-    account: {
-        flex:0.5,
-        flexDirection: 'row-reverse',
 
     },
+
+    account: {
+        flex:1,
+        flexDirection: 'row-reverse',
+        marginTop: '13%',
+        marginHorizontal: '6%',
+
+    },
+    text: {
+        fontSize: 40, 
+        marginLeft: '6%',
+        marginBottom: '2%',
+        marginTop: '15%',
+    },
     logo: {
-        width: 150,
-        height: 50,
-        marginTop: 2,
+        width: '50%',
+        height: 100,
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: '10%',
+        marginTop: '8%',
     },
 })
 

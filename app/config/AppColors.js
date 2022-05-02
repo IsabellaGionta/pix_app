@@ -1,9 +1,10 @@
 export default {
     black: '#000',
-    primaryColor: '#FFEEC8', // light yellow
+    buttonColor: '#FFEEC8', // light yellow
     secondaryColor: '#858585', // grey 
-    otherColor: '#D998B4', // pink 
+    otherColor: '#D998B4', // dark pink 
     highlightColor: '#993C86', // purple 
-    FeatureTextColor:"#504746", // Dark brown
+    FeatureTextColor:"#504746", // dark brown
+    backColor: "#C3A0A0", //light pink
     white: '#fff',
 }

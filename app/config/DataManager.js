@@ -6,22 +6,22 @@ export default class DataManager  {
         {
             userid: "user1",
             collectionid: 1,
-            name:"2020",
-            image:require("../assets/icon.png"),
+            name:"Adventures",
+            image:require("../assets/balloons.jpg"),
             description: "editable",
         },
         {
             userid: "user1",
             collectionid: 2,
-            name:"2021",
-            image:require("../assets/logo.png"),
+            name:"Food",
+            image:require("../assets/salad.jpg"),
             description: "editable",
         },
         {
             userid: "user2",
             collectionid: 3,
-            name:"2022",
-            image:require("../assets/plant.jpg"),
+            name:"Cities",
+            image:require("../assets/tokyo.jpg"),
             description: "editable",
         },
     ]
@@ -31,39 +31,40 @@ export default class DataManager  {
             userid: "user1",
             collectionid: 1,
             photoid:1,
-            name:"2020",
-            image: require("../assets/icon.png"),
-            description: "This is the description of the photos",
+            name:"Ballon Ride 2010",
+            image: require("../assets/balloons.jpg"),
+            description: "Hot air balloon ride",
         },
         {
             userid: "user1",
             collectionid: 2,
             photoid:2,
-            name:"2021",
-            image: require("../assets/logo.png"),
-            description: "This is the description of the photos. This is the description of the photos",
+            name:"Burger",
+            image: require("../assets/burger.jpg"),
+            description: "Yummy burger",
         },
         {
             userid: "user2",
             collectionid: 2,
             photoid:3,
-            name:"Flowers",
-            image:require("../assets/plant.jpg"),
+            name:"Tokyo",
+            image:require("../assets/tokyo.jpg"),
             description: "This photo was taken on 03/04/2017",
         },
         {
             userid: "user2",
             collectionid: 2,
             photoid:4,
-            name:"icon",
-            image:require("../assets/icon.png"),
-            description: "This photo was taken on 03/12/2021",
+            name:"Food",
+            image:require("../assets/cheese.jpg"),
+            description: "Cool cheese photo",
         },
         {
             userid: "user2",
             collectionid: 2,
-            name:"Plant photos",
-            image:require("../assets/plant.jpg"),
+            photoid:4,
+            name:"Hiking",
+            image:require("../assets/hiking.jpg"),
             description: "This photo was taken on 22/04/2012",
         },
     ]
@@ -71,24 +72,24 @@ export default class DataManager  {
     
     labels = [
         {
-            label: "2020", 
+            label: "Adventure", 
             labelid: 1, 
-            collectionid: 2,
+            collectionid: 1,
             userid: "user1",
             photoid:5,
             icon:"airplane-takeoff", 
             backgroundColor: "orange",
         },
         {
-            label: "2021", 
+            label: "Food", 
             labelid: 2, 
             userid: "user2",
-            collectionid: 1,
+            collectionid: 2,
             icon:"flash", 
             backgroundColor: "lightblue",
         },
         {
-            label: "2022", 
+            label: "Cities", 
             labelid: 3,
             userid: "user1",
             collectionid: 3, 
@@ -103,7 +104,7 @@ export default class DataManager  {
             name: "Isabella",
             email: "isa@gmail.com",
             password: "123456",
-            image: require('../assets/icon.png'),
+            image: require('../assets/NYC.jpeg'),
     
         },
         {
@@ -164,6 +165,7 @@ export default class DataManager  {
     getLabels(id){
         return this.labels.filter((label)=> label.userid === id);
     }
+
 
 
     // editPhoto(photo) {

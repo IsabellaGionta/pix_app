@@ -1,8 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet} from 'react-native'
-
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import AppIcon from './AppIcon';
 import AppText from './AppText';
+
 
 function AppPickerItem({onPress, label, icon, backgroundColor}) {
     return (

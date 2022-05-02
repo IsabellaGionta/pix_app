@@ -1,25 +1,21 @@
 import {React, useState} from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
-
-import {Formik} from 'formik';
 import * as Yup from 'yup';
-
-
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import {Formik} from 'formik';
 import AppButton from '../components/AppButton';
-import AppColors from '../config/AppColors';
 import AppError from '../components/AppError';
+import AppFonts from '../config/AppFonts';
 import AppScreen from '../components/AppScreen';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
-import AppFonts from '../config/AppFonts';
 import DataManager from '../config/DataManager';
 
 
 
 const schema = Yup.object().shape(
     {
-        name: Yup.string().required("This field is required").label("Full Name"),
+        firstName: Yup.string().required("This field is required").label("First Name"),
+        lastName: Yup.string().required("This field is required").label("Last Name"),
         email: Yup.string().required("This field is required").email("Please enter a valid email address").label("Email"),
         password: Yup.string().required("This field is required").min(6, "Password must be at least 6 characters").max(16, "Password must be max 16 characters").label("Password"), 
     }
@@ -28,15 +24,17 @@ const schema = Yup.object().shape(
 const users = [
     {
         id: "user1",
-        name: "Isabella",
+        firstName: "Isabella",
+        lastName: "Paine",
         email: "isa@gmail.com",
         password: "123456",
-        image: require('../assets/icon.png'),
+        image: require('../assets/NYC.jpeg'),
 
     },
     {
         id: "user2",
-        name: "Gionta",
+        firstName: "Floral",
+        lastName: "Plants",
         email: "bel@gmail.com",
         password: "789012",
         image: require('../assets/plant.jpg'),
@@ -66,7 +64,8 @@ const validateUser = ({email, password}) => {
 
 function RegisterScreen({navigation}) {
 
-    const[name, setName] = useState("");
+    const[firstName, setFirstName] = useState("");
+    const[lastName, setLastName] = useState("");
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
 
@@ -81,7 +80,8 @@ function RegisterScreen({navigation}) {
         const userID = users.length+1;
         const newUser = {
             id: userID,
-            name: name,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: password    
     };
@@ -93,12 +93,16 @@ function RegisterScreen({navigation}) {
     
 
     return (
-        <AppScreen style={styles.container}>
+        <AppScreen 
+            style={styles.container}
+            back="arrow-left"
+            handleBackClick={() => {navigation.goBack(null)}}
+        >
             <ScrollView
             vertical={true} translucent={true}>
                 <AppText style={styles.registerText}> Register </AppText>
                 <Formik
-                    initialValues={{name:'', email:'', password:'',}}
+                    initialValues={{firstName:'', lastName:'', email:'', password:'',}}
                     onSubmit = {(values, {resetForm}) => {
                         if(!validateUser(values)){
                             resetForm(); 
@@ -112,7 +116,8 @@ function RegisterScreen({navigation}) {
                                 screen:"Profile2",
                                 params:{ 
                                     paramEmail: values.email,
-                                    paramName: getUsers(values).name,
+                                    paramFirstName: getUsers(values).firstName,
+                                    paramLastName: getUsers(values).lastName,
                                     paramImage: getUsers(values).image,
                                 },
                             }
@@ -133,14 +138,28 @@ function RegisterScreen({navigation}) {
                             autoCapitalise="none"
                             autoCorrect={false}
                             icon="account"
-                            placeholder="Full Name"
-                            onBlur = {() => setErrors("name")}
-                            onChangeText = {handleChange("name")}
+                            placeholder="First Name"
+                            onBlur = {() => setErrors("firstName")}
+                            onChangeText = {handleChange("firstName")}
                         />
-                        {errors.name && touched.name ? (
+                        {errors.firstName && touched.firstName ? (
                             <AppText style={styles.errorText}>{errors.email}</AppText>
                         ) : null}
-                        <AppError  name="name" />
+                        <AppError  name="firstName" />
+
+                        <AppTextInput
+                            autoCapitalise="none"
+                            autoCorrect={false}
+                            icon="account"
+                            placeholder="Last Name"
+                            onBlur = {() => setErrors("lastName")}
+                            onChangeText = {handleChange("lastName")}
+                        />
+                        {errors.lastName && touched.lastName ? (
+                            <AppText style={styles.errorText}>{errors.email}</AppText>
+                        ) : null}
+                        <AppError  name="lastName" />
+
 
                         <AppTextInput
                             autoCapitalise="none"
@@ -176,7 +195,10 @@ function RegisterScreen({navigation}) {
                     </>
                 )}
                  </Formik>
-                 </ScrollView>
+                 <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                    <AppText style={styles.signinText}> Already have an account? Sign in </AppText>
+                </TouchableOpacity>   
+            </ScrollView>
                 
         </AppScreen>
     );
@@ -195,11 +217,16 @@ const styles = StyleSheet.create({
         marginHorizontal: '10%',
     },
     registerText: {
-        marginTop:'10%',
+        marginTop:'0%',
         textAlign: 'center',
         fontSize: 30,
         fontFamily: AppFonts.headings,
     },
+    signinText: {
+        fontSize: 15,
+        marginHorizontal: '20%',
+        marginTop: '5%',
+    }
 
 })
 

@@ -1,12 +1,9 @@
 import React from 'react';
-
 import {createStackNavigator } from '@react-navigation/stack';
-
 import CollectionScreen from '../screens/CollectionScreen';
-import PhotoScreen from '../screens/PhotoScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import LoginScreen from '../screens/LoginScreen';
 import PhotosNavigator from './PhotosNavigator';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const ProfileNav = createStackNavigator();
 

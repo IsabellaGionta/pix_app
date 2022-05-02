@@ -1,14 +1,13 @@
-import React from 'react';
-import {createStackNavigator } from '@react-navigation/stack';
-
-import WelcomeScreen from '../screens/WelcomeScreen';
+import { createStackNavigator } from '@react-navigation/stack';
+import CollectionsNavigator from './CollectionNavigator';
+import IndivNavigator from './IndivNavigator';
 import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
-import TabNavigator from './TabNavigator'
-import CollectionScreen from '../screens/CollectionScreen';
-import PhotoScreen from '../screens/PhotoScreen';
 import PhotosNavigator from './PhotosNavigator';
-import HomeNavigator from './HomeNavigator';
+import React from 'react';
+import RegisterScreen from '../screens/RegisterScreen';
+import TabNavigator from './TabNavigator';
+import WelcomeScreen from '../screens/WelcomeScreen';
+
 
 const AppStack = createStackNavigator();
 
@@ -17,8 +16,9 @@ const AuthNavigator = () => (
         <AppStack.Screen name="Welcome" component={WelcomeScreen} />
         <AppStack.Screen name="Login" component={LoginScreen}  />
         <AppStack.Screen name="Register" component={RegisterScreen} />
-        <AppStack.Screen name="Collection" component={CollectionScreen} />
+        <AppStack.Screen name="Collection" component={CollectionsNavigator} />
         <AppStack.Screen name="PhotosScreen" component={PhotosNavigator} />
+        <AppStack.Screen name="IndivCollectionScreen" component={IndivNavigator}  />
         <AppStack.Screen name="ProfileScreen" component={TabNavigator}  />
 
     </AppStack.Navigator>

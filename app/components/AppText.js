@@ -1,10 +1,10 @@
 import React from 'react';
-
-
-import {StyleSheet, Text } from 'react-native';
-
+import { StyleSheet, Text } from 'react-native';
 import AppColors from '../config/AppColors';
 import AppFonts from '../config/AppFonts';
+
+
+
 
 function AppText({style, children}) {
     return (

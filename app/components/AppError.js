@@ -1,10 +1,8 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
-
-
-import AppColors from '../config/AppColors';
-import AppFonts from '../config/AppFonts';
+import { StyleSheet, View } from 'react-native';
 import AppText from './AppText';
+
+
 
 
 function AppError({name}) {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, View} from 'react-native';
-
-
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import AppColors from '../config/AppColors';
 import AppFonts from '../config/AppFonts';
 import AppText from './AppText';
+
+
 
 function AppButton({title, onPress}) {
 
@@ -20,18 +20,20 @@ function AppButton({title, onPress}) {
 
 const styles = StyleSheet.create({
     appButton: {
-        backgroundColor: AppColors.primaryColor,
+        backgroundColor: AppColors.buttonColor,
         borderRadius: 20,
         width: '80%',
         padding: 15,
         marginHorizontal: '10%',
         alignItems: 'center',
+        borderWidth: 2,
     },
     appButtonText: {
         fontSize: 15,
         textTransform: 'uppercase',
         fontWeight: 'bold',
         fontFamily: AppFonts.headings,
+        color: AppColors.FeatureTextColor
 
 
     },

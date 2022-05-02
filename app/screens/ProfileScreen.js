@@ -1,34 +1,43 @@
-  
 import {React, useState} from 'react';
-
-import {FlatList, StyleSheet, View, TouchableWithoutFeedback, Modal} from 'react-native'
+import { StyleSheet, View} from 'react-native'
 import AppButton from '../components/AppButton';
-import AppCard from '../components/AppCard';
-import AppPicker from '../components/AppPicker';
+import  AppListItem from "../components/AppListItem";
 import AppScreen from '../components/AppScreen';
 import DataManager from '../config/DataManager';
-import  AppListItem from "../components/AppListItem";
-import AppIcon from '../components/AppIcon';
-import AppColors from '../config/AppColors';
-import AppText from '../components/AppText';
+
+
 
 const getCollections = () => {
     let commonData = DataManager.getInstance();
     let user = commonData.getUserID();
     return commonData.getCollections(user);    
-    // console.log(commonData.getCollections(user));
 }
+
+const getPhotos = () => {
+
+    let commonData = DataManager.getInstance();
+    let user = commonData.getUserID();
+    return commonData.getPhotos(user);    
+}
+
 
 
 function ProfileScreen({navigation, route}) {
 
+    
+    const photoList = getPhotos();
+
+    const[photos, setPhotos] =  useState(photoList);
+    const[refreshing, setRefreshing] = useState(false);
+        
+
     const logout = async function () {
-        await navigation.navigate("Login");
+        await navigation.navigate("Welcome");
  
         }
 
+
     const collectionList = getCollections();
-    // console.log(collectionList);
     const [modal, setModal] = useState(false);
 
     const handlePhotoClick = () => {
@@ -36,7 +45,7 @@ function ProfileScreen({navigation, route}) {
     }
     
     const handleCollectionClick = () => {
-        navigation.navigate("Collection");
+        navigation.navigate("Collections");
     }
     
 
@@ -46,17 +55,22 @@ function ProfileScreen({navigation, route}) {
             icon="logout"
             style={styles.container}
             onPress={logout}
+            source={require('../assets/logo.png')}
         >
 
             <View style={styles.profileContainer}>
-                <AppListItem image={route.params.paramImage} name={route.params.paramName} description={route.params.paramEmail}/>
+                <AppListItem 
+                    firstName={route.params.paramFirstName} 
+                    image={route.params.paramImage} 
+                    lastName={route.params.paramLastName} 
+                    description={route.params.paramEmail}
+                    width='100%'
+                    flexDirection='row'
+                    alignItems='center'
+                    justifyContent='center'
+                />
             </View>
-            <View style={styles.logout}>
-                <AppButton 
-                        onPress={logout}
-                        title="Logout"
-                    />
-            </View>
+
             <View style={styles.mainButtons}>
 
                 <AppButton 
@@ -82,6 +96,9 @@ const styles = StyleSheet.create({
     },
     profileContainer: {
         marginTop: '10%',
+        marginLeft: '-2%',
+        width: '100%',
+        height: 300,
     },
     mainButtons: {
         marginTop: 20,
@@ -90,7 +107,8 @@ const styles = StyleSheet.create({
         width: '40%',
         left: '43%',
         top: '-9%',
-    }
+    },
+
      
 })
 export default ProfileScreen;

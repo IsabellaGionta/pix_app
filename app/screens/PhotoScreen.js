@@ -1,17 +1,12 @@
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { React, useState } from 'react';
-import { FlatList, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Overlay } from 'react-native-elements';
-import AppButton from '../components/AppButton';
-import AppIcon from '../components/AppIcon';
-import AppListItem from '../components/AppListItem';
-import AppScreen from '../components/AppScreen';
-import AppText from '../components/AppText';
-import AppTextInput from '../components/AppTextInput';
+import * as ImagePicker from 'expo-image-picker';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import AppCard from '../components/AppCard';
 import AppColors from '../config/AppColors';
-import DataManager from '../config/DataManager';
 import AppOverlay from '../components/AppOverlay';
+import AppScreen from '../components/AppScreen';
+import DataManager from '../config/DataManager';
 
 
 
@@ -33,6 +28,8 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
     const[description, setDescription] = useState("");
     const [overlayVisible, setOverlayVisible] = useState(false);
     const[image, setImage] = useState(null);
+    const[imagePath, setImagePath] = useState(null);
+
 
     const[editName, setEditName] = useState("");
     const[editDescription, setEditDescription] = useState("");
@@ -44,12 +41,13 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
 
     const[photos, setPhotos] =  useState(photoList);
 
-    // const profile = () => {
+    const handlePhotoClick = () => {
         
-    //      console.log('clicked')
-    //      navigation.navigate("Login")
+         console.log('clicked')
+         navigation.navigate("IndivPhotoScreen")
  
-    // }
+    }
+    
 
     const handleDelete = (photo) => {
         const newPhotoList =  photos.filter (item => item.photoid !== photo.photoid);
@@ -81,8 +79,9 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
             return;
         }
         setImage({path: pickerResult.uri});
+        setImagePath({path: pickerResult.uri});
         setEditImage({path: pickerResult.uri});
-        console.log(pickerResult);
+        console.log("picker result", pickerResult);
 
 
     }
@@ -92,18 +91,22 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
         let user = commonData.getUserID();
 
         const photos = commonData.getPhotos(user);
+        const collections = commonData.getCollections(user)
+
         const photoID = photos.length+1;
         const newPhoto = {
             name: name,
             photoid: photoID,
             userid: user,
             description: description,
-            // image: image.path,
+            image: image.path,
+            imagePath: image.path,
 
         };
 
-        console.log(newPhoto);
+        console.log("new photo", newPhoto);
         commonData.addPhoto(newPhoto);
+        
 
     }
 
@@ -121,7 +124,6 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
             photoid: photos.photoid,
             userid: user,
             collectionid: photos.collectionid,
-            // editImage: image.path,
             editName: name,
             editDescription: description
         }
@@ -132,99 +134,98 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
 
     return (
         <AppScreen 
-            icon="account"
-            onPress={profile}
-
+            onPress={addPhoto}
+            title="Photos"
             style={styles.container}
         >
-                    <View style={styles.appCards}> 
-  
-                    <FlatList 
-                        data={photos}
-                        keyExtractor = {photo => photo.photoid.toString()}
-                        refreshing={refreshing}
-                        onRefresh={() => setPhotos(photoList)}
-                        renderItem = {({item}) => 
-                                <AppListItem 
-                                    name={item.name}
+
+            <View style={{borderWidth:2, marginLeft: '10%', marginRight: '10%', borderRadius: 1,borderColor: 'black', borderStyle: 'dotted',margin: 10,}}/>
+            <View style={styles.appCards}> 
+
+                <FlatList 
+                    data={photos}
+                    numColumns={3}
+                    key={3}
+                    keyExtractor = {photo => photo.photoid.toString()}
+                    refreshing={refreshing}
+                    onRefresh={() => setPhotos(photoList)}
+                    renderItem = {({item}) => 
+                    <View> 
+                        <View style={styles.appCardsContainer}>
+                            <TouchableOpacity onPress={handlePhotoClick}>
+                                <AppCard 
                                     image={item.image}
-                                    description={item.description}
-                                    onSwipeLeft={ () => (
-                                        <View style={styles.container}> 
-                                            <View style={styles.iconContainer}>
-                                                <TouchableOpacity onPress={() => handleDelete(item)}>
-                                                    <AppIcon
-                                                        name="trash-can"
-                                                        backgroundColor={AppColors.primaryColor}
-                                                        iconColor={AppColors.otherColor}
-                                                    />
-                                                </TouchableOpacity>
+                                    width={200}
+                                    flexDirection='row'
+                                    alignItems='center'
+                                    justifyContent='center'
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.trash} >
+                                                    <View>
+                                                        <AppOverlay
+                                                            title="Delete"
+                                                            text="Delete Collection"
+                                                            question="Are you sure you want to delete this collection?"
+                                                            appicon="trash-can"
+                                                            sizeAppIcon={100}
+                                                            size={50}
+                                                            onPress={() => handleDelete(item)}> 
+                                                        </AppOverlay>   
+                                                    </View>            
+                                                </TouchableOpacity> 
+                 
+                        </View>
 
-                                                <View style={{marginTop: 10,}}>
-                                                    <AppOverlay 
-                                                        text="Edit Photo"
-                                                        appicon="image-edit-outline"
-                                                        placeholder="Edit Photo Name"
-                                                        placeholder2="Edit Photo Description"
-                                                        appicon3="camera"
-                                                        iconColor={AppColors.otherColor}
-                                                        title="Edit Photo"
-                                                        onChangeText1={(inputText) => setEditName(inputText)}
-                                                        onChangeText2={(inputText) => setEditDescription(inputText)}
-                                                        onPress={() => {
-                                                            editPhoto()
-                                                            navigation.navigate("Photos");
-                                                            console.log(editPhoto)
-                                                        }}
-                                                    />      
-        
-                                                </View>
-                                            </View>
-  
-                                        </View>
-                                    )}
-                                    />
-                        }
-                    />
-                    <AppOverlay
-                        text="Add Photo"
-                        icon="plus-box-outline"
-                        size={180}
-                        placeholder="Photo Name"
-                        placeholder2="Photo Description"
-                        appicon3="camera"
-                        iconColor={AppColors.otherColor}
-                        title="Add Photo"
-                        onChangeText1={(inputText) => setName(inputText)}
-                        onChangeText2={(inputText) => setDescription(inputText)}
-                        onPress={() => {
-                            addPhoto()
-                            navigation.navigate("Photos"); 
-                          
-
-                        }}
-                    /> 
+                    </View>
+                                
+                    }
+                />
+            <View style={styles.addPhotoButton}>
+                <AppOverlay
+                    text="Add Photo"
+                    icon="plus-circle-outline"
+                    size={90}
+                    colorIcon={AppColors.FeatureTextColor}
+                    placeholder="Photo Name"
+                    placeholder2="Photo Description"
+                    choose="Choose a Photo:"
+                    icon1="account"
+                    appicon3="camera"
+                    ImagePickerClick={openImagePickerAsync}
+                    // imagePath={{uri: image.path}}
+                    iconColor={AppColors.otherColor}
+                    title="Add Photo"
+                    onChangeText1={(inputText) => setName(inputText)}
+                    onChangeText2={(inputText) => setDescription(inputText)}
+                    onPress={() => {
+                        addPhoto()
+                        navigation.navigate("PhotosScreen"); 
+                    }}
+                /> 
+            </View>
+               
             </View>
         </AppScreen>
 
     );
 }
 const styles = StyleSheet.create({
+    container: {
+        height:'100%',
+        overflow: 'hidden',
+    },
     overlay: {
         marginTop: '50%',
         position:'absolute',
     },
-    editIcon: {
-        top: '-15%',
-    },
+
+
     icon: {
         top: 0,
         left: 0,
         backgroundColor: 'red',
         width: 40,
-    },
-    container: {
-        height:'100%',
     },
     iconContainer:{
         backgroundColor:AppColors.secondaryColor,
@@ -233,9 +234,7 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
     },
-    editIcon: {
-        marginTop: 10,
-    },
+
     imageButton: {
         justifyContent:"center",
         alignItems:"center",
@@ -244,7 +243,21 @@ const styles = StyleSheet.create({
     },
     addPhoto: {
         marginLeft: 40,
-    }
+    },
+
+    addPhotoButton: {
+        position: 'relative',
+            left: '70%',
+            bottom: '105%',
+    },
+    trash: {
+        marginLeft: '10%',
+    },
+    edit: {
+        left: '56%',
+        top:'-16%',
+    },
+  
   
     
 })

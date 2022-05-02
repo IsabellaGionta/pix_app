@@ -1,14 +1,12 @@
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import LoginScreen from '../screens/LoginScreen';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import CollectionScreen from '../screens/CollectionScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import React from 'react';
 import AppColors from '../config/AppColors';
 import AppIcon from '../components/AppIcon';
+import CollectionScreen from '../screens/CollectionScreen';
 import HomeNavigator from './HomeNavigator';
-import PhotoScreen from '../screens/PhotoScreen';
+import PhotosNavigator from './PhotosNavigator';
+
+
 
 const AppTab = createBottomTabNavigator();
 
@@ -19,10 +17,11 @@ const TabNavigator = () => (
             tabBarActiveBackgroundColor: AppColors.otherColor,
             tabBarInactiveTintColor: AppColors.FeatureTextColor,
             headerShown: false,
+            tabBarStyle: {height: 70}
         }}>
-      <AppTab.Screen name="Profile" component={HomeNavigator} options={{ tabBarIcon: () => <AppIcon size={30} name="home" backgroundColor={AppColors.secondaryColor}/>}}/>
-      <AppTab.Screen name="Photos" component={PhotoScreen} options={{tabBarIcon: () => <AppIcon size={30} name="image-multiple" backgroundColor={AppColors.secondaryColor}/>}} />
-      <AppTab.Screen name="Collections" component={CollectionScreen} options={{ tabBarIcon: () => <AppIcon size={30} name="folder-image" backgroundColor={AppColors.secondaryColor}/>}} />
+        <AppTab.Screen name="Profile" component={HomeNavigator} options={{  tabBarIcon: () => <AppIcon size={60} name="home" />}}/>
+        <AppTab.Screen name="Photos" component={PhotosNavigator} options={{tabBarIcon: () => <AppIcon size={60} name="image-multiple" />}} />
+        <AppTab.Screen name="Collections" component={CollectionScreen} options={{ tabBarIcon: () => <AppIcon size={60} name="folder-image" />}} />
 
     </AppTab.Navigator>
   );
