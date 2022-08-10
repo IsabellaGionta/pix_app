@@ -10,7 +10,7 @@ const PhotosNav = createStackNavigator();
 
 const PhotosNavigator = () => (
     <PhotosNav.Navigator screenOptions={{headerShown: false}}>
-        <PhotosNav.Screen name="PhotosScreen" component={PhotoScreen}  />
+        <PhotosNav.Screen name="Photos" component={PhotoScreen}  />
         <PhotosNav.Screen name="ProfileScreen2" component={ProfileScreen}  />
         <PhotosNav.Screen name="Collection" component={CollectionScreen}  />
         <PhotosNav.Screen name="LoginScreen" component={LoginScreen}  />

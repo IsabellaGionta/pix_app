@@ -1,5 +1,5 @@
 
-import { React, useState } from 'react';
+import  React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AppCard from '../components/AppCard';
@@ -41,12 +41,12 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
 
     const[photos, setPhotos] =  useState(photoList);
 
-    const handlePhotoClick = () => {
+    // const handlePhotoClick = () => {
         
-         console.log('clicked')
-         navigation.navigate("IndivPhotoScreen")
+    //      console.log('clicked')
+    //      navigation.navigate("IndivPhotoScreen")
  
-    }
+    // }
     
 
     const handleDelete = (photo) => {
@@ -165,15 +165,40 @@ function PhotoScreen({props, overlayid ,navigation, onPress}) {
                                                     <View>
                                                         <AppOverlay
                                                             title="Delete"
-                                                            text="Delete Collection"
-                                                            question="Are you sure you want to delete this collection?"
+                                                            text="Delete Photo"
+                                                            question="Are you sure you want to delete this photo?"
                                                             appicon="trash-can"
                                                             sizeAppIcon={100}
                                                             size={50}
                                                             onPress={() => handleDelete(item)}> 
                                                         </AppOverlay>   
                                                     </View>            
-                                                </TouchableOpacity> 
+                            </TouchableOpacity> 
+                            <TouchableOpacity style={styles.edit} >
+
+                                <View style={{marginTop: 10,}}>
+                                    <AppOverlay 
+                                        text="Edit Photo"
+                                        appicon="image-edit-outline"
+                                        sizeAppIcon={100}
+                                        placeholder="Edit Photo Name"
+                                        placeholder2="Edit Photo Description"
+                                        appicon3="camera"
+                                        ImagePickerClick={openImagePickerAsync}
+                                        // imagePath={{uri: image.path}}
+                                        iconColor={AppColors.otherColor}
+                                        title="Edit Photo"
+                                        onChangeText1={(inputText) => setEditName(inputText)}
+                                        onChangeText2={(inputText) => setEditDescription(inputText)}
+                                        onPress={() => {
+                                            editPhoto()
+                                            navigation.navigate("Photos");
+                                            console.log(editPhoto)
+                                        }}
+                                    />      
+                        
+                                </View>          
+                            </TouchableOpacity> 
                  
                         </View>
 
@@ -251,11 +276,11 @@ const styles = StyleSheet.create({
             bottom: '105%',
     },
     trash: {
-        marginLeft: '10%',
+        marginLeft: '-5%',
     },
     edit: {
-        left: '56%',
-        top:'-16%',
+        left: '40%',
+        top:'-28%',
     },
   
   

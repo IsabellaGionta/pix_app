@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import React, {useState} from 'react';
 import * as Yup from 'yup';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import {Formik} from 'formik';
@@ -143,7 +143,7 @@ function RegisterScreen({navigation}) {
                             onChangeText = {handleChange("firstName")}
                         />
                         {errors.firstName && touched.firstName ? (
-                            <AppText style={styles.errorText}>{errors.email}</AppText>
+                            <AppText style={styles.errorText}>{errors.firstName}</AppText>
                         ) : null}
                         <AppError  name="firstName" />
 
@@ -156,7 +156,7 @@ function RegisterScreen({navigation}) {
                             onChangeText = {handleChange("lastName")}
                         />
                         {errors.lastName && touched.lastName ? (
-                            <AppText style={styles.errorText}>{errors.email}</AppText>
+                            <AppText style={styles.errorText}>{errors.lastName}</AppText>
                         ) : null}
                         <AppError  name="lastName" />
 
@@ -185,7 +185,7 @@ function RegisterScreen({navigation}) {
                             onChangeText = {handleChange("password")}
                         />
                         {errors.password && touched.password ? (
-                            <AppText style={styles.errorText}>{errors.email}</AppText>
+                            <AppText style={styles.errorText}>{errors.password}</AppText>
                         ) : null}
                         <AppError  name="password" />
                     </View> 

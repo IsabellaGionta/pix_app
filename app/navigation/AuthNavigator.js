@@ -7,6 +7,9 @@ import React from 'react';
 import RegisterScreen from '../screens/RegisterScreen';
 import TabNavigator from './TabNavigator';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import PhotoScreen from '../screens/PhotoScreen';
+import CollectionScreen from '../screens/CollectionScreen';
 
 
 const AppStack = createStackNavigator();
@@ -16,8 +19,9 @@ const AuthNavigator = () => (
         <AppStack.Screen name="Welcome" component={WelcomeScreen} />
         <AppStack.Screen name="Login" component={LoginScreen}  />
         <AppStack.Screen name="Register" component={RegisterScreen} />
-        <AppStack.Screen name="Collection" component={CollectionsNavigator} />
-        <AppStack.Screen name="PhotosScreen" component={PhotosNavigator} />
+        <AppStack.Screen name="Collection" component={CollectionScreen} />
+        <AppStack.Screen name="Profile" component={TabNavigator} />
+        <AppStack.Screen name="Photo" component={PhotoScreen} />
         <AppStack.Screen name="IndivCollectionScreen" component={IndivNavigator}  />
         <AppStack.Screen name="ProfileScreen" component={TabNavigator}  />
 

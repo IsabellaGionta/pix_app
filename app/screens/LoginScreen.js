@@ -8,9 +8,10 @@ import AppFonts from '../config/AppFonts';
 import AppScreen from '../components/AppScreen';
 import AppText from '../components/AppText';
 import AppTextInput from '../components/AppTextInput';
-import DataManager from '../config/DataManager';
-
-
+import {users} from '../config/users.js';
+import DataManager from '../config/DataManager.js';
+import { useNavigation } from "@react-navigation/native";
+import AuthNavigator from '../navigation/AuthNavigator';
 
 const schema = Yup.object().shape(
     {
@@ -18,26 +19,6 @@ const schema = Yup.object().shape(
         password: Yup.string().required("This field is required").min(6, "Password must be at least 6 characters").max(16, "Password must be max 16 characters").label("Password"), 
     }
 );
-const users = [
-    {
-        id: "user1",
-        firstName: "Isabella",
-        lastName: "Paine",
-        email: "isa@gmail.com",
-        password: "123456",
-        image: require('../assets/plant.jpg'),
-
-    },
-    {
-        id: "user2",
-        firstName: "Floral",
-        lastName: "Plants",
-        email: "bel@gmail.com",
-        password: "789012",
-        image: require('../assets/plant.jpg'),
-
-    },
-];
 
 const validateUser = ({email, password}) => {
     return (
@@ -58,6 +39,20 @@ const createUser = ({email}) => {
 }
 
 function LoginScreen({navigation}) {
+
+    //  const verifyUser = (user) => {
+    //     const existingUser = users.filter((u) => {
+    //         return u.email == user.email && u.password == user.password
+    //     }
+    //     )
+    
+    //     if (existingUser.length > 0) {
+    //         nav.navigate("Profile", { user: existingUser[0] })
+    //     }
+    //     else {
+    //         alert("Invalid Credential", "Please check input!")
+    //     }
+    // }
   
 
     return (

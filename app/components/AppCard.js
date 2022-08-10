@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { React } from 'react';
+import React  from 'react';
 import { ImageBackground, StyleSheet, TouchableOpacity, View } from 'react-native';
 import AppText from './AppText';
 

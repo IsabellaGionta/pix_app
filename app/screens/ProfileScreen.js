@@ -1,9 +1,12 @@
-import {React, useState} from 'react';
-import { StyleSheet, View} from 'react-native'
+import React, {useState} from 'react';
+import { StyleSheet, Text, View} from 'react-native'
 import AppButton from '../components/AppButton';
 import  AppListItem from "../components/AppListItem";
 import AppScreen from '../components/AppScreen';
+import AppColors from '../config/AppColors';
+import AppFonts from '../config/AppFonts';
 import DataManager from '../config/DataManager';
+import AuthNavigator from '../navigation/AuthNavigator';
 
 
 
@@ -29,7 +32,8 @@ function ProfileScreen({navigation, route}) {
 
     const[photos, setPhotos] =  useState(photoList);
     const[refreshing, setRefreshing] = useState(false);
-        
+    const { user } = route.params
+
 
     const logout = async function () {
         await navigation.navigate("Welcome");
@@ -41,7 +45,7 @@ function ProfileScreen({navigation, route}) {
     const [modal, setModal] = useState(false);
 
     const handlePhotoClick = () => {
-        navigation.navigate("Photos");
+        navigation.navigate("Photo");
     }
     
     const handleCollectionClick = () => {
@@ -59,16 +63,21 @@ function ProfileScreen({navigation, route}) {
         >
 
             <View style={styles.profileContainer}>
+            <Text style={styles.welcome}> Hi, </Text>
+
+             {user && <Text style={styles.name}> { user.username } </Text>}
+{/* 
                 <AppListItem 
-                    firstName={route.params.paramFirstName} 
-                    image={route.params.paramImage} 
-                    lastName={route.params.paramLastName} 
-                    description={route.params.paramEmail}
-                    width='100%'
-                    flexDirection='row'
-                    alignItems='center'
-                    justifyContent='center'
-                />
+                    // firstName={route.params.paramFirstName} 
+                    // image={route.params.paramImage} 
+
+                    // lastName={route.params.paramLastName} 
+                    // description={route.params.paramEmail}
+                    // width='100%'
+                    // flexDirection='row'
+                    // alignItems='center'
+                    // justifyContent='center'
+                /> */}
             </View>
 
             <View style={styles.mainButtons}>
@@ -108,7 +117,19 @@ const styles = StyleSheet.create({
         left: '43%',
         top: '-9%',
     },
-
+    name: {
+        fontSize: 40,
+        fontFamily: AppFonts.text,
+        left: '20%',
+        color: AppColors.buttonColor
+    
+    },
+    welcome: {
+        fontSize: 40,
+        fontFamily: AppFonts.headings,
+        left: '10%',
+        color: AppColors.FeatureTextColor,
+      },
      
 })
 export default ProfileScreen;

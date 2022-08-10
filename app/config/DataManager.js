@@ -112,7 +112,7 @@ export default class DataManager  {
             name: "Gionta",
             email: "bel@gmail.com",
             password: "789012",
-            image: require('../assets/plant.jpg'),
+            image: require('../assets/cheese.jpg'),
     
         },
     ];
